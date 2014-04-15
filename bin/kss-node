@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var kss = require(__dirname + '/../lib/kss.js'),
+var path = require('path'),
+	kss = require(path.join(__dirname, '../lib/kss.js')),
 	preCompiler = kss.precompilers,
 	compilers = preCompiler.compilers,
 	handlebars = require('handlebars'),
@@ -12,13 +13,12 @@ var kss = require(__dirname + '/../lib/kss.js'),
 	async = require('async'),
 	util = require('util'),
 	less = require('less'),
-	path = require('path'),
 	fs = require('fs'),
 	template, styleguide,
 	generatePage, generateStylesheet,
 	options = {
-		templateDirectory: __dirname + '/../lib/template',
-		sourceDirectory: __dirname + '/../demo',
+		templateDirectory: path.join(__dirname, '../lib/template'),
+		sourceDirectory: path.join(__dirname, '../demo'),
 		destinationDirectory: process.cwd() + '/styleguide'
 	},
 	KSS_FAILED = false,	argv;
@@ -92,7 +92,7 @@ if (argv.init) {
 	}
 
 	console.log('Creating a new styleguide template...');
-	wrench.copyDirSyncRecursive( __dirname + '/../lib/template', argv.init );
+	wrench.copyDirSyncRecursive( path.join(__dirname, '../lib/template'), argv.init );
 	console.log('You can change it as you like, and use it with your styleguide like so:');
 	console.log('');
 	console.log('kss-node [sourcedir] --template "'+argv.init+'"');
@@ -144,7 +144,7 @@ console.log(' * Template: ' + path.resolve(options.templateDirectory));
 console.log('');
 
 // Compile the Handlebars template
-template = fs.readFileSync(options.templateDirectory + '/index.html', 'utf8');
+template = fs.readFileSync(path.join(options.templateDirectory, 'index.html'), 'utf8');
 template = handlebars.compile(template);
 
 // Create a new "styleguide" directory and copy the contents
@@ -154,8 +154,8 @@ try {
 } catch (e) {}
 
 wrench.copyDirSyncRecursive(
-	options.templateDirectory + '/public',
-	options.destinationDirectory + '/public'
+	path.join(options.templateDirectory, 'public'),
+	path.join(options.destinationDirectory, 'public')
 );
 
 // Generate the static HTML pages in the next tick, i.e. after the other functions have
@@ -171,7 +171,7 @@ process.nextTick(function() {
 		css = cleanCss.process(css);
 
 		// Write the compiled LESS styles from the template.
-		fs.writeFileSync(options.destinationDirectory + '/public/kss.css', css, 'utf8');
+		fs.writeFileSync(path.join(options.destinationDirectory, 'public/kss.css'), css, 'utf8');
 
 		console.log('...parsing your styleguide');
 
@@ -288,14 +288,14 @@ generatePage = function(styleguide, sections, root, pages, sectionRoots) {
 generateIndex = function(styleguide, sections, pages, sectionRoots) {
 	try {
 		console.log('...generating styleguide overview');
-		fs.writeFileSync(options.destinationDirectory + '/index.html',
+		fs.writeFileSync(path.join(options.destinationDirectory, 'index.html'),
 			template({
 				styleguide: styleguide,
 				sectionRoots: sectionRoots,
 				sections: jsonSections(sections),
 				rootNumber: 0,
 				argv: argv || {},
-				overview: marked(fs.readFileSync(options.sourceDirectory + '/styleguide.md', 'utf8'))
+				overview: marked(fs.readFileSync(path.join(options.sourceDirectory, 'styleguide.md'), 'utf8'))
 			})
 		);
 	} catch(e) {
