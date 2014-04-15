@@ -459,4 +459,23 @@ suite('#traverse', function() {
 			});
 		});
 	});
+	suite('Parsing CoffeeScript', function() {
+		common.testSection('Second paragraph', 'coffeescript.coffee', function(section) {
+			assert.equal(
+				section.data.markup.toLowerCase(),
+				'<a href="#" class="{$modifiers}">Hello World</a>'.toLowerCase()
+			);
+
+			assert.equal(section.data.reference, '7.1');
+			assert.equal(section.data.modifiers.length, 3);
+			assert.equal(section.data.description, '');
+		}, false, { markup: true });
+
+		common.testSection('Below modifiers', 'coffeescript.coffee', function(section) {
+			assert.equal(
+				section.data.markup.toLowerCase(),
+				'<a href="#" class="{$modifiers}">Lorem Ipsum</a>'.toLowerCase()
+			);
+		});
+	});
 });
