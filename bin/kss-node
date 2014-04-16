@@ -181,7 +181,7 @@ process.nextTick(function() {
 
 		kss.traverse(options.sourceDirectory, {
 			multiline : true,
-			markdown  : !argv.markdown,
+			markdown  : !argv['disable-markdown'],
 			markup    : true,
 			mask      : argv.mask || preCompiler.mask
 		}, function(err, sg) {
