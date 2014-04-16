@@ -80,14 +80,12 @@ argv = require('optimist')
 
 	.string('M')
 	.alias('M', 'disable-markdown')
-	.describe('M', 'Disable Markdown styles (default FALSE)')
+	.describe('M', 'Disable Markdown styling')
 	
 	.argv;
 
 argv.loadPath = argv['load-path']
 argv.loadPath = argv.loadPath && !Array.isArray(argv.loadPath) ? [argv.loadPath] : argv.loadPath
-
-argv.markdown = argv['disable-markdown'] || false;
 
 // Create a new styleguide template to play with using the `--init` tag.
 if (argv.init) {
