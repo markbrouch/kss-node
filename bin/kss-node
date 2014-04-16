@@ -78,10 +78,16 @@ argv = require('optimist')
 	.alias('i', 'init')
 	.describe('i', 'Create a new styleguide template to work from')
 
+	.string('M')
+	.alias('M', 'disable-markdown')
+	.describe('M', 'Disable Markdown styles (default FALSE)')
+	
 	.argv;
 
 argv.loadPath = argv['load-path']
 argv.loadPath = argv.loadPath && !Array.isArray(argv.loadPath) ? [argv.loadPath] : argv.loadPath
+
+argv.markdown = argv['disable-markdown'] || false;
 
 // Create a new styleguide template to play with using the `--init` tag.
 if (argv.init) {
@@ -177,7 +183,7 @@ process.nextTick(function() {
 
 		kss.traverse(options.sourceDirectory, {
 			multiline : true,
-			markdown  : true,
+			markdown  : !argv.markdown,
 			markup    : true,
 			mask      : argv.mask || preCompiler.mask
 		}, function(err, sg) {
