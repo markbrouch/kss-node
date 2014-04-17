@@ -355,7 +355,9 @@ handlebars.registerHelper('ifAny', function() {
  * Returns true if arguments are equal.
  */
 handlebars.registerHelper('ifEq', function() {
-	var success = (arguments[0] === arguments[1]);
+	var argLength = arguments.length - 2,
+		content = arguments[argLength + 1],
+		success = (arguments[0] === arguments[1]);
 	
 	return success ? content(this) : content.inverse(this);
 })
