@@ -352,6 +352,15 @@ handlebars.registerHelper('ifAny', function() {
 });
 
 /**
+ * Returns true if arguments are equal.
+ */
+handlebars.registerHelper('ifEq', function() {
+	var success = (arguments[0] === arguments[1]);
+	
+	return success ? content(this) : content.inverse(this);
+})
+
+/**
  * Returns a single section, found by its reference number
  * @param  {String|Number} reference The reference number to search for.
  */
