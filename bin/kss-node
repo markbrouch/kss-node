@@ -137,8 +137,6 @@ if (argv.style) {
 	delete argv.style
 }
 
-console.log(argv);
-
 console.log('');
 console.log('Generating your KSS Styleguide!');
 console.log('');
