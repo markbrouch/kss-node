@@ -310,7 +310,6 @@ generateIndex = function(styleguide, sections, pages, sectionRoots) {
 // Convert an array of `KssSection` instances to a JSON object.
 jsonSections = function(sections) {
 	return sections.map(function(section) {
-		console.log(sections);
 		return {
 			header: section.header(),
 			description: section.description(),
